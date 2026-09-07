@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>poshan  Calculetor</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; }
+        body { background-color: #f4f4f4; display: flex; justify-content: center; min-height: 100vh; }
+        .mobile-container { width: 100%; max-width: 480px; min-height: 100vh; background-color: #ffffff; box-shadow: 0 0 20px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; }
+        /* 3. Header Section */
+        header {
+            background-color: #666666;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+        }
+
+        /* 4. Main Content Area */
+        main {
+            padding: 20px;
+            flex: 1;
+        }
+        .back-btn { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: white; text-decoration: none; font-weight: bold; }
+        main { padding: 20px; flex: 1; }
+        .main-tabs { display: flex; gap: 10px; margin-bottom: 20px; }
+        .main-tab-btn { flex: 1; padding: 12px; font-weight: bold; cursor: pointer; border: 1px solid #ccc; border-radius: 6px; background: #eee; }
+        .main-tab-btn.active { background-color: #666; color: white; border-color: #666; }
+        .section-panel { display: none; }
+        .section-panel.active { display: block; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; font-size: 0.95rem; }
+        .form-group input { width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
+        .gender-box { background: #eee; padding: 10px; border-radius: 6px; display: flex; gap: 20px; font-weight: bold; }
+        .gender-box label { cursor: pointer; display: flex; align-items: center; gap: 5px; }
+        .result-box { margin-top: 15px; padding: 15px; border-radius: 6px; font-weight: bold; text-align: center; font-size: 1.1rem; display: none; }
+        .healthy { background-color: #e8f5e9; color: #2e7d32; border: 1px solid #a5d6a7; }
+        .mam { background-color: #fff3e0; color: #ef6c00; border: 1px solid #ffe082; }
+        .sam { background-color: #ffebee; color: #c62828; border: 1px solid #ef9a9a; }
+        .diet-box { margin-top: 15px; padding: 15px; background: #f9f9f9; border-left: 4px solid #666; border-radius: 4px; font-size: 0.9rem; line-height: 1.5; color: #444; display: none; }
+        .diet-box h4 { color: #333; margin-bottom: 8px; font-size: 0.95rem; text-transform: uppercase; border-bottom: 1px dashed #ccc; padding-bottom: 4px; }
+        .diet-box ul { margin-left: 18px; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <header>
+            <a href="index.html" class="back-btn">&larr; बैक</a>
+            <h1>पोषण कैलकुलेटर </h1>
+        </header>
+        <main>
+            <div class="main-tabs">
+                <button id="btnChildTab" class="main-tab-btn active">👶 बच्चे की जांच</button>
+                <button id="btnPregTab" class="main-tab-btn">🤰 गर्भवती महिला</button>
+            </div>
+            <!-- बच्चे का सेक्शन -->
+            <div id="panelChild" class="section-panel active">
+                <div class="form-group">
+                    <label>बच्चे का लिंग चुनें (अनिवार्य):</label>
+                    <div class="gender-box">
+                        <label><input type="radio" name="gender" value="boy"> 👦 लड़का</label>
+                        <label><input type="radio" name="gender" value="girl"> 👧 लड़की</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>बच्चे की उम्र (महीने में, 0 से 60):</label>
+                    <input type="number" id="childAge" min="0" max="60" placeholder="उम्र डालें">
+                </div>
+                <div class="form-group">
+                    <label>बच्चे की लंबाई (cm में):</label>
+                    <input type="number" id="childHeight" step="0.1" placeholder="लंबाई">
+                </div>
+                <div class="form-group">
+                    <label>बच्चे का वजन (kg में):</label>
+                    <input type="number" id="childWeight" step="0.1" placeholder="वजन">
+                </div>
+                <div id="childStatus" class="result-box"></div>
+                <div id="childDiet" class="diet-box"></div>
+            </div>
+            <!-- गर्भवती का सेक्शन -->
+            <div id="panelPreg" class="section-panel">
+                <div class="form-group">
+                    <label>आखिरी माहवारी (LMP) तारीख चुनें:</label>
+                    <input type="date" id="pregLmp">
+                </div>
+                <div class="form-group">
+                    <label>वर्तमान गर्भ माह:</label>
+                    <input type="number" id="pregMonth" readonly style="background:#eee;">
+                </div>
+                <div class="form-group">
+                    <label>गर्भवती महिला का वजन (kg में):</label>
+                    <input type="number" id="pregWeight" step="0.1" placeholder="वजन">
+                </div>
+                <div class="form-group">
+                    <label>शिशु का अनुमानित वजन (grams):</label>
+                    <input type="text" id="fetalWeight" readonly style="background:#eee;">
+                </div>
+                <div id="pregStatus" class="result-box"></div>
+                <div id="pregDiet" class="diet-box"></div>
+            </div>
+<H6> चिकित्सीय अस्वीकरण (Medical Disclaimer): यह डिजिटल ऑटो-कैलकुलेटर केवल शुरुआती स्क्रीनिंग मानकों पर आधारित सामान्य संदर्भ जानकारी देता है। गंभीर कुपोषण या बाल विकास से जुड़ी किसी भी समस्या के सटीक समाधान के लिए हमेशा स्थानीय सरकारी अस्पताल के डॉक्टर या अधिकृत ए.एन.एम. (ANM) से व्यक्तिगत परामर्श लें।</H6>
+        </main>
+    </div>
+<script>
+    const btnChildTab = document.getElementById('btnChildTab');
+    const btnPregTab = document.getElementById('btnPregTab');
+    const panelChild = document.getElementById('panelChild');
+    const panelPreg = document.getElementById('panelPreg');
+
+    btnChildTab.addEventListener('click', function() {
+        btnChildTab.classList.add('active'); btnPregTab.classList.remove('active');
+        panelChild.classList.add('active'); panelPreg.classList.remove('active');
+    });
+    btnPregTab.addEventListener('click', function() {
+        btnPregTab.classList.add('active'); btnChildTab.classList.remove('active');
+        panelPreg.classList.add('active'); panelChild.classList.remove('active');
+    });
+
+    const boyData = {
+        0: { ht: 49.9, wt: 3.3, vac: "BCG, OPV-0, HepB-0" },
+        6: { ht: 67.6, wt: 7.9, vac: "OPV-1, Pentavalent-1, fIPV-1, Rota-1, PCV-1" },
+        12: { ht: 75.7, wt: 9.6, vac: "MR-1, PCV-Booster, fIPV-3, Vit-A 1st Dose" },
+        24: { ht: 87.8, wt: 12.2, vac: "MR-2, DPT Booster-1, OPV Booster, Vit-A" },
+        36: { ht: 96.1, wt: 14.3, vac: "Vit-A (5 साल की उम्र तक हर 6 महीने पर)" },
+        48: { ht: 103.3, wt: 16.3, vac: "नियमित गृह आधारित स्वास्थ्य निगरानी" },
+        60: { ht: 110.0, wt: 18.3, vac: "DPT Booster-2 (5 से 6 वर्ष की उम्र पर)" }
+    };
+
+    const girlData = {
+        0: { ht: 49.1, wt: 3.2, vac: "BCG, OPV-0, HepB-0" },
+        6: { ht: 65.7, wt: 7.3, vac: "OPV-1, Pentavalent-1, fIPV-1, Rota-1, PCV-1" },
+        12: { ht: 74.0, wt: 8.9, vac: "MR-1, PCV-Booster, fIPV-3, Vit-A 1st Dose" },
+        24: { ht: 86.4, wt: 11.5, vac: "MR-2, DPT Booster-1, OPV Booster, Vit-A" },
+        36: { ht: 95.1, wt: 13.9, vac: "Vit-A (5 साल की उम्र तक हर 6 महीने पर)" },
+        48: { ht: 102.7, wt: 16.0, vac: "नियमित गृह आधारित स्वास्थ्य निगरानी" },
+        60: { ht: 109.4, wt: 18.2, vac: "DPT Booster-2 (5 से 6 वर्ष की उम्र पर)" }
+    };
+
+    const cAge = document.getElementById('childAge');
+    const cHeight = document.getElementById('childHeight');
+    const cWeight = document.getElementById('childWeight');
+    const childStatus = document.getElementById('childStatus');
+    const childDiet = document.getElementById('childDiet');
+
+    function checkGender() {
+        const sel = document.querySelector('input[name="gender"]:checked');
+        if (!sel) { alert("कृपया पहले बच्चे का लिंग चुनें!"); cAge.value = ""; return null; }
+        return sel.value;
+    }
+
+    function getClosestAge(val, type, db) {
+        let closest = 0; let minDiff = Infinity;
+        for (let m in db) {
+            let diff = Math.abs(val - (type === 'ht' ? db[m].ht : db[m].wt));
+            if (diff < minDiff) { minDiff = diff; closest = parseInt(m); }
+        }
+        return closest;
+    }
+
+    function evaluateChild() {
+        const gender = document.querySelector('input[name="gender"]:checked')?.value;
+        if (!gender) return;
+        const db = gender === 'boy' ? boyData : girlData;
+        const age = parseInt(cAge.value) || 0;
+        const ht = parseFloat(cHeight.value) || 0;
+        const wt = parseFloat(cWeight.value) || 0;
+
+        if (!cAge.value || !ht || !wt) { childStatus.style.display="none"; childDiet.style.display="none"; return; }
+
+        let baseAge = 0;
+        let keys = Object.keys(db).map(Number).sort((a,b)=>a-b);
+        for(let i=0; i<keys.length; i++) { if(age >= keys[i]) baseAge = keys[i]; }
+        const std = db[baseAge];
+
+        childStatus.style.display = "block"; childDiet.style.display = "block";
+        
+        if (wt < (std.wt * 0.75) || ht < (std.ht * 0.85)) {
+            childStatus.className = "result-box sam"; childStatus.innerHTML = "🔴 बच्चा अतिकुपोषित (SAM) है!";
+        } else if (wt < (std.wt * 0.90) || ht < (std.ht * 0.95)) {
+            childStatus.className = "result-box mam"; childStatus.innerHTML = "🟡 बच्चा कुपोषित (MAM) है।";
+        } else {
+            childStatus.className = "result-box healthy"; childStatus.innerHTML = "🟢 बच्चा सामान्य (स्वस्थ) है।";
+        }
+
+        childDiet.innerHTML = `
+            <h4>🧬 आवश्यक पोषक तत्व और आहार:</h4>
+            <p><strong>विटामिन ए, कैल्शियम और आयरन:</strong> इसके लिए खिचड़ी, दाल, हरी सब्जियां, दूध और फल खिलाएं।</p>
+            <h4 style="margin-top:10px;">💉 उम्र के अनुसार आवश्यक टीका:</h4>
+            <p>${std.vac}</p>
+        `;
+    }
+
+    let isUpdating = false;
+
+    cAge.addEventListener('input', function() {
+        if (isUpdating) return;
+        const gender = checkGender(); if(!gender) return;
+        isUpdating = true;
+        const db = gender === 'boy' ? boyData : girlData;
+        let age = parseInt(this.value) || 0; if(age > 60) age = 60;
+        let base = 0; for(let m in db) { if(age >= parseInt(m)) base = parseInt(m); }
+        cHeight.value = db[base].ht; cWeight.value = db[base].wt;
+        evaluateChild(); isUpdating = false;
+    });
+
+    cHeight.addEventListener('input', function() {
+        if (isUpdating) return;
+        const gender = checkGender(); if(!gender) return;
+        isUpdating = true;
+        const db = gender === 'boy' ? boyData : girlData;
+        let age = getClosestAge(parseFloat(this.value)||0, 'ht', db);
+        cAge.value = age; cWeight.value = db[age].wt;
+        evaluateChild(); isUpdating = false;
+    });
+
+    cWeight.addEventListener('input', function() {
+        if (isUpdating) return;
+        const gender = checkGender(); if(!gender) return;
+        isUpdating = true;
+        const db = gender === 'boy' ? boyData : girlData;
+        let age = getClosestAge(parseFloat(this.value)||0, 'wt', db);
+        cAge.value = age; cHeight.value = db[age].ht;
+        evaluateChild(); isUpdating = false;
+    });
+
+    document.querySelectorAll('input[name="gender"]').forEach(r => r.addEventListener('change', () => {
+        cAge.value=""; cHeight.value=""; cWeight.value=""; childStatus.style.display="none"; childDiet.style.display="none";
+    }));
+
+    const pLmp = document.getElementById('pregLmp');
+    const pMonth = document.getElementById('pregMonth');
+    const pWeight = document.getElementById('pregWeight');
+    const fWeight = document.getElementById('fetalWeight');
+    const pregStatus = document.getElementById('pregStatus');
+    const pregDiet = document.getElementById('pregDiet');
+
+    const pregStandard = {
+        1: { wt: 50.5, fetal: "नगण्य" }, 2: { wt: 51.0, fetal: "2 grams" }, 3: { wt: 51.5, fetal: "25 grams" },
+        4: { wt: 52.5, fetal: "100 grams" }, 5: { wt: 54.0, fetal: "300 grams" }, 6: { wt: 55.5, fetal: "600 grams" },
+        7: { wt: 57.0, fetal: "1000 grams" }, 8: { wt: 58.5, fetal: "1700 grams" }, 9: { wt: 60.0, fetal: "2600+ grams" }
+    };
+
+    function evaluatePregnancy() {
+        const m = parseInt(pMonth.value) || 0;
+        const wt = parseFloat(pWeight.value) || 0;
+        if (m < 1 || m > 9 || !wt) { pregStatus.style.display="none"; pregDiet.style.display="none"; return; }
+
+        const std = pregStandard[m];
+        fWeight.value = std.fetal;
+        pregStatus.style.display = "block"; pregDiet.style.display = "block";
+
+        if (wt < (std.wt * 0.90)) {
+            pregStatus.className = "result-box sam"; pregStatus.innerHTML = "⚠️ डॉक्टर से परामर्श की आवश्यकता है (वजन कम है)!";
+        } else if (wt > (std.wt * 1.15)) {
+            pregStatus.className = "result-box mam"; pregStatus.innerHTML = "⚠️ डॉक्टर से परामर्श की आवश्यकता है (वजन अधिक है)!";
+        } else {
+            pregStatus.className = "result-box healthy"; pregStatus.innerHTML = "🟢 गर्भवती की स्थिति सामान्य (स्वस्थ) है।";
+        }
+
+        pregDiet.innerHTML = `
+            <h4>💊 आवश्यक पोषक तत्व:</h4>
+            <p><strong>आयरन, फॉलिक एसिड, कैल्शियम:</strong> माँ और बच्चे के लिए अनिवार्य।</p>
+            <h4 style="margin-top:10px;">🍏 फल, सब्जी और अनाज:</h4>
+            <p>रागी, दलिया, ओट्स, पालक, मेथी, अनार, केला और संतरा खाएं।</p>
+        `;
+    }
+
+    pLmp.addEventListener('change', function() {
+        if (!this.value) return;
+        const lmpDate = new Date(this.value);
+        const today = new Date(); 
+        const diffTime = Math.abs(today - lmpDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        let months = Math.floor(diffDays / 30.4);
+        
+        if (months < 1) months = 1; if (months > 9) months = 9;
+        pMonth.value = months; pWeight.value = pregStandard[months].wt; 
+        evaluatePregnancy();
+    });
+
+    pWeight.addEventListener('input', evaluatePregnancy);
+</script>
+</body>
+</html>

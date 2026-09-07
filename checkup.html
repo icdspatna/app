@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>स्वास्थ्य जांच और ग्रोथ मॉनिटरिंग</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: Arial, sans-serif; } 
+        /* 3. Header Section */
+        header {
+            background-color: #666666;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+        }
+
+        /* 4. Main Content Area */
+        main {
+            padding: 20px;
+            flex: 1;
+        } 
+        .mobile-container { width: 100%; max-width: 480px; min-height: 100vh; background: #fff; box-shadow: 0 0 20px rgba(0,0,0,0.1); display: flex; flex-direction: column; } 
+         header {
+            background-color: #666666;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+        }
+
+        .back-btn { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: #fff; text-decoration: none; font-weight: bold; } 
+        main { padding: 20px; flex: 1; } 
+        .card { border: 1px solid #e0e0e0; border-radius: 12px; padding: 20px; margin-bottom: 20px; } 
+        h2 { font-size: 1.2rem; color: #333; margin-bottom: 12px; border-bottom: 2px solid #666; padding-bottom: 5px; } 
+        
+        /* इमेज रिस्पॉन्सिव स्टाइल */
+        .graphic-container { width: 100%; border-radius: 8px; border: 1px solid #ddd; margin: 15px 0; background: #fafafa; }
+        .graphic-img { display: block; width: 100%; height: auto; border-radius: 6px; }
+        
+        .info-list { margin-left: 20px; margin-bottom: 15px; color: #444; line-height: 1.6; }
+        .info-list li { margin-bottom: 8px; }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <header><a href="index.html" class="back-btn">&larr; बैक</a><h1>स्वास्थ्य जांच</h1></header>
+        <main>
+            <div class="card">
+                <h2>🩺 5. स्वास्थ्य जांच और ग्रोथ मॉनिटरिंग</h2>
+                
+                <!-- 📷 यहाँ ग्रामीण चार्ट पोस्टर इन्सर्ट किया गया है -->
+                <div class="graphic-container">
+                    <!-- ऊपर जनरेट हुई इमेज को सेव करके उसका नाम यहाँ डालें -->
+                    <img src="checkup.jpeg" alt="स्वास्थ्य जांच ग्रामीण गाइड" class="graphic-img">
+                </div>
+
+                <ul class="info-list">
+                    <li><strong>वजन और लंबाई:</strong> हर महीने 0 से 5 वर्ष के बच्चों की जांच ताकि कुपोषण का समय पर पता चले।</li>
+                    <li><strong>स्वास्थ्य कार्ड:</strong> गर्भवती महिलाओं और बच्चों के कार्डों को हमेशा अपडेट रखना।</li>
+                    <li><strong>स्थान:</strong> आपका स्थानीय आंगनवाड़ी केंद्र।</li>
+                    <li><strong>समय:</strong> हर महीने VHND दिवस पर सुबह 9 बजे से।</li>
+                </ul>
+            </div>
+            <a href="index.html" style="display:block;text-align:center;background:#666;color:#fff;padding:15px;text-decoration:none;border-radius:8px;font-weight:bold;">होम पेज पर जाएं</a>
+        </main>
+    </div>
+</body>
+</html>

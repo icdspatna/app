@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anganwadi ICDS</title>
+    
+    <style>
+        /* 1. Global Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+        }
+
+        /* 2. Mobile Container Layout */
+        .mobile-container {
+            width: 100%;
+            max-width: 480px;
+            min-height: 100vh;
+            background-color: #ffffff;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 3. Header Section */
+        header {
+            background-color: #666666;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+        }
+
+        /* 4. Main Content Area */
+        main {
+            padding: 20px;
+            flex: 1;
+        }
+
+        .touch-guide {
+            background-color: #f9f9f9;
+            color: #555;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            text-align: center;
+            margin-bottom: 20px;
+            border: 1px dashed #ccc;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .service-card {
+            background: #ffffff;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            padding: 15px 5px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.1s ease, border-color 0.2s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .service-card:active {
+            transform: scale(0.95);
+            border-color: #666666;
+            background-color: #fafafa;
+        }
+	
+        .service-card .icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .service-card h3 {
+            font-size: 0.95rem;
+            color: #333;
+            font-weight: bold;
+            min-height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* पॉप-अप (Modal) स्टाइल्स */
+        .custom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s ease;
+        }
+
+        .custom-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            background: white;
+            width: 85%;
+            max-width: 400px;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .modal-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .badge-b { background: #e8f5e9; color: #2e7d32; }
+        .badge-d { background: #e1f5fe; color: #0277bd; }
+
+        #modalTitle {
+            font-size: 1.2rem;
+            color: #333;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        #modalBody {
+            font-size: 0.95rem;
+            color: #555;
+            line-height: 1.5;
+            min-height: 60px;
+        }
+
+        .modal-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .btn-next {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .link-desc {
+            color: #666666;
+            font-weight: bold;
+            text-decoration: none;
+            font-size: 0.9rem;
+            flex: 1;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        footer {
+            text-align: center;
+            padding: 15px;
+            font-size: 0.85rem;
+            color: #888;
+            border-top: 1px solid #eee;
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="mobile-container">
+        <header>
+            <h1>Rudra Tech Pvt. Ltd.</h1>
+        </header>
+
+        <main>
+            <div class="touch-guide">
+                <strong>ICDS (समेकित बाल विकास सेवा) के तहत प्रदान की जाने वाली 6 सेवाओं को धरातल पर उतारने में आंगनवाड़ी कार्यकर्ताओं (Anganwadi Workers - AWW) की भूमिका सबसे महत्वपूर्ण होती है। वे ग्रामीण और स्थानीय स्तर पर सरकार और समुदाय के बीच की सबसे मजबूत कड़ी हैं।
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card" data-id="1"><span class="icon">🍎</span><h3>1. पूरक पोषण</h3></div>
+                <div class="service-card" data-id="2"><span class="icon">🧸</span><h3>2. पूर्व-स्कूली शिक्षा</h3></div>
+                <div class="service-card" data-id="3"><span class="icon">📢</span><h3>3. पोषण व स्वास्थ्य शिक्षा</h3></div>
+                <div class="service-card" data-id="4"><span class="icon">💉</span><h3>4. टीकाकरण</h3></div>
+                <div class="service-card" data-id="5"><span class="icon">🩺</span><h3>5. स्वास्थ्य जांच</h3></div>
+                <div class="service-card" data-id="6"><span class="icon">🚑</span><h3>6. रेफरल सेवाएँ</h3></div>
+		<div class="service-card" data-id="7"><span class="icon">👶📈 </span><h3>7. पोषण कैल कुलेटर </h3></div>
+		<div class="service-card" data-id="8"><span class="icon">💰  </span><h3>7. आँगन मानदेय  </h3></div>
+		<div class="service-card" data-id="9"><span class="icon">🤰  </span><h3>7. PMMVY  </h3></div>
+		
+            </div>
+
+            <!-- डेटा पॉप-अप (Modal) -->
+            <div class="custom-modal" id="infoModal">
+                <div class="modal-content">
+                    <span id="modalBadge" class="modal-badge"></span>
+                    <h3 id="modalTitle">सेवा</h3>
+                    <div id="modalBody">विवरण...</div>
+                    
+                    <div class="modal-actions">
+                        <!-- विशेष जानकारी लिंक -->
+                        <span id="moreInfoLink" class="link-desc">विशेष जानकारी &rarr;</span>
+                        <!-- ठीक है बटन (यह नए पेज पर ले जाएगा) -->
+                        <button id="okBtn" class="btn-next">ठीक है</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>&copy; 2026 Rudra Tech Pvt. Ltd.</p>
+        </footer>
+    </div>
+
+        <!-- मोबाइल टच के लिए 100% वर्किंग स्क्रिप्ट -->
+        <!-- आपकी आवश्यकता के अनुसार 100% सटीक वर्किंग स्क्रिप्ट -->
+        <!-- सभी मोबाइल इवेंट्स को सुचारू रूप से चलाने वाली वर्किंग स्क्रिप्ट -->
+    <script>
+        // सभी 7 सेवाओं का मास्टर डेटाबेस और उनके सटीक पेज लिंक्स
+        const icdsData = {
+            "1": { title: "पूरक पोषण (Supplementary Nutrition)", beneficiary: "6 महीने से 6 वर्ष तक के बच्चे, गर्भवती महिलाएं और स्तनपान कराने वाली माताएं।", details: "इसके तहत कुपोषण को दूर करने के लिए आंगनवाड़ी केंद्रों पर गर्म पका हुआ भोजन, राशन (Take Home Ration) और सुबह का नाश्ता दिया जाता है।", page: "poshan.html" },
+            "2": { title: "पूर्व-स्कूली गैर-औपचारिक शिक्षा", beneficiary: "3 से 6 वर्ष तक के बच्चे।", details: "बच्चों को प्राथमिक शिक्षा के लिए तैयार करने के लिए आंगनवाड़ी केंद्रों में खेल-खेल में, कविताओं और चित्रों के माध्यम से अनौपचारिक शिक्षा दी जाती है।", page: "education.html" },
+            "3": { title: "पोषण और स्वास्थ्य शिक्षा", beneficiary: "15 से 45 वर्ष की महिलाएं, गर्भवती और स्तनपान कराने वाली माताएं।", details: "महिलाओं को खुद के और बच्चों के सही पोषण, स्वच्छता, शिशु देखभाल और स्वास्थ्य संबंधी अच्छी आदतों के बारे में शिक्षित किया जाता है।", page: "nhed.html" },
+            "4": { title: "टीकाकरण (Immunization)", beneficiary: "6 वर्ष से कम उम्र के बच्चे और गर्भवती महिलाएं।", details: "बच्चों को जानलेवा बीमारियों से बचाने के लिए और गर्भवती महिलाओं को टिटनेस से सुरक्षित रखने के लिए मुफ्त टीके लगाए जाते हैं।", page: "vaccine.html" },
+            "5": { title: "स्वास्थ्य जांच (Health Check-up)", beneficiary: "6 वर्ष से कम उम्र के बच्चे, गर्भवती और स्तनपान कराने वाली माताएं।", details: "इसके अंतर्गत बच्चों का नियमित वजन, प्रसव पूर्व देखभाल (Antenatal Care), प्रसवोत्तर जांच और सामान्य बीमारियों का इलाज शामिल है।", page: "checkup.html" },
+            "6": { title: "रेफरल सेवाएँ (Referral Services)", beneficiary: "गंभीर रूप से बीमार या अत्यधिक कुपोषित बच्चे और उच्च जोखिम वाली गर्भवती महिलाएं।", details: "गंभीर चिकित्सीय समस्या पाई जाने पर उन्हें तुरंत प्राथमिक स्वास्थ्य केंद्र (PHC) या जिला अस्पताल में बेहतर इलाज के लिए रेफर किया जाता है।", page: "referral.html" },
+            "7": { title: "पोषण कैलकुलेटर (Poshan Calculator)", beneficiary: "0 से 5 वर्ष तक के बच्चे और गर्भवती महिलाएं।", details: "इस डिजिटल टूल की मदद से बच्चे की उम्र, लंबाई व वजन और गर्भवती महिला की एलएमपी (LMP) डेट डालकर उनके स्वास्थ्य स्तर की लाइव जांच की जा सकती है।", page: "calculator3.html" },
+	    "8": { title: "आँगन मानदेय ", beneficiary: "आँगनबाड़ी सेविका और सहायिका  ", details: "यहाँ आँगनबाड़ी सेविका और सहायिका अपना मानदेय देख सकते हैं ", page: "https://icdsaangan.bihar.gov.in/AanganMandey/eAccount/MonthWiseStatusReport.aspx" },
+	    "9": { title: "PMMVY (मातृ वंदन योजना )", beneficiary: "0 से 5 वर्ष तक के बच्चे और गर्भवती महिलाएं।", details: "इस डिजिटल टूल की मदद से बच्चे की उम्र, लंबाई व वजन और गर्भवती महिला की एलएमपी (LMP) डेट डालकर उनके स्वास्थ्य स्तर की लाइव जांच की जा सकती है।", page: "https://pmmvy.wcd.gov.in/Account/Login" },
+        };
+
+        let currentActiveId = null;
+        let currentModalState = 'beneficiary'; // 'beneficiary' या 'details'
+
+        // 1. होम पेज के सभी 7 कार्ड्स पर टच/क्लिक इवेंट असाइन करना
+        document.querySelectorAll('.service-card').forEach(card => {
+            function handleCardTouch(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                const id = card.getAttribute('data-id');
+                if (id && icdsData[id]) {
+                    openModal(id, 'beneficiary'); // हमेशा पहले लाभार्थी पॉप-अप खोलें
+                }
+            }
+            
+            // मोबाइल और डेस्कटॉप दोनों ब्राउज़र्स के लिए इवेंट्स बाइंडिंग
+            card.addEventListener('click', handleCardTouch);
+            card.addEventListener('touchstart', handleCardTouch, { passive: false });
+        });
+
+        // 2. पॉप-अप (Modal) का कंटेंट और बटन टेक्स्ट बदलने का फंक्शन
+        function openModal(id, type) {
+            currentActiveId = id;
+            currentModalState = type;
+            
+            const data = icdsData[id];
+            const badge = document.getElementById('modalBadge');
+            const moreInfoLink = document.getElementById('moreInfoLink');
+            const okButton = document.getElementById('okBtn');
+            
+            document.getElementById('modalTitle').innerText = data.title;
+
+            if (type === 'beneficiary') {
+                // लाभार्थी मोड सेटअप
+                badge.innerText = "👥 लाभार्थी";
+                badge.className = "modal-badge badge-b";
+                document.getElementById('modalBody').innerHTML = data.beneficiary;
+                
+                moreInfoLink.style.display = "inline-block"; // 'विशेष जानकारी' लिंक दिखाएं
+                okButton.innerText = "ठीक है"; // बटन का नाम 'ठीक है' रखें
+                okButton.style.backgroundColor = "#666666"; // सामान्य रंग
+            } else if (type === 'details') {
+                // विवरण मोड सेटअप
+                badge.innerText = "📝 सम्पूर्ण विवरण";
+                badge.className = "modal-badge badge-d";
+                document.getElementById('modalBody').innerHTML = data.details;
+                
+                moreInfoLink.style.display = "none"; // लिंक छुपाएं
+                okButton.innerText = "विशेष जानकारी "; // नाम बदला
+                okButton.style.backgroundColor = "#007bff"; // आकर्षक नीला रंग
+            }
+
+            document.getElementById('infoModal').classList.add('active');
+        }
+
+        // 3. "विशेष जानकारी" लिंक पर क्लिक इवेंट (पॉप-अप के अंदर)
+        const moreInfoLink = document.getElementById('moreInfoLink');
+        function handleMoreInfo(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (currentActiveId) {
+                openModal(currentActiveId, 'details'); // विवरण मोड में स्विच करें
+            }
+        }
+        moreInfoLink.addEventListener('click', handleMoreInfo);
+        moreInfoLink.addEventListener('touchstart', handleMoreInfo, { passive: false });
+
+        // 4. मुख्य एक्शन बटन (ओके बटन) को संभालने का लॉजिक
+        const okButton = document.getElementById('okBtn');
+        function handleAction(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            if (!currentActiveId) return;
+
+            if (currentModalState === 'beneficiary') {
+                // 'ठीक है' स्थिति: पॉप-अप बंद करें, होम पेज पर ही रहें
+                closeModal();
+            } else if (currentModalState === 'details') {
+                // 'विशेष जानकारी (नया पेज)' स्थिति: नए निर्दिष्ट पेज पर नेविगेट करें
+                const targetPage = icdsData[currentActiveId].page;
+                if (targetPage) {
+                    window.location.assign(targetPage); // बिना किसी रुकावट के नया पेज खोलें
+                }
+            }
+        }
+        okButton.addEventListener('click', handleAction);
+        okButton.addEventListener('touchstart', handleAction, { passive: false });
+
+        // 5. पॉप-अप बंद करने का फंक्शन
+        function closeModal() {
+            document.getElementById('infoModal').classList.remove('active');
+            currentActiveId = null;
+            currentModalState = 'beneficiary';
+        }
+    </script>
