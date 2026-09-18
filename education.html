@@ -1,37 +1,484 @@
-
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>education</title>
-    <style>*{box-sizing:border-box;margin:0;padding:0;font-family:Arial;} body{background:#f4f4f4;display:flex;justify-content:center;min-height:100vh;} 
-.mobile-container{width:100%;max-width:480px;min-height:100vh;background:#fff;box-shadow:0 0 20px rgba(0,0,0,0.1);display:flex;flex-direction:column;} 
-header {
-            background-color: #666666;
-            color: #ffffff;
-            padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>आँगनबाड़ी - स्कूल पूर्व शिक्षा</title>
+    <!-- Google Fonts & FontAwesome Icons for Beautiful Typography & Icons -->
+    <link href="https://googleapis.com" rel="stylesheet">
+    <link rel="stylesheet" href="https://cloudflare.com">
+    
+    <style>
+        :root {
+            --primary-color: #ff6f61;
+            --secondary-color: #4caf50;
+            --accent-color: #2196f3;
+            --warning-color: #ffb74d;
+            --text-color: #333;
+            --bg-color: #f9f9f9;
         }
 
-        header h1 {
-            font-size: 1.5rem;
-        } 
-.back-btn{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:#fff;text-decoration:none;font-weight:bold;} main{padding:20px;flex:1;} .card{border:1px solid #e0e0e0;border-radius:12px;padding:20px;margin-bottom:20px;} h2{font-size:1.3rem;color:#333;margin-bottom:10px;border-bottom:2px solid #666;padding-bottom:5px;} p{font-size:1rem;color:#444;line-height:1.6;margin-bottom:15px;}</style>
+        body {
+            font-family: 'Noto Sans Devanagari', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            padding: 20px;
+        }
+
+        /* Banner Style */
+        .nep-banner {
+            background: linear-gradient(135deg, #ff9933, #ffffff, #138808);
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .nep-banner h2 {
+            margin-top: 0;
+            color: #000080;
+            font-size: 1.4rem;
+        }
+
+        .nep-banner p {
+            margin: 0;
+            font-weight: 500;
+            color: #333;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            border-bottom: 2px solid #ffe0b2;
+            padding-bottom: 10px;
+        }
+
+        /* Card Layout */
+        .card {
+            background: #fff;
+            border-left: 5px solid var(--primary-color);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+            margin-bottom: 25px;
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            background: #fff5f5;
+            padding: 12px 15px;
+            display: flex;
+            align-items: center;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #c62828;
+        }
+
+        .card-header i {
+            margin-right: 10px;
+            font-size: 1.4rem;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        /* Sub-points inside cards */
+        .point {
+            margin-bottom: 12px;
+        }
+
+        .point-title {
+            font-weight: bold;
+            color: #424242;
+            display: inline-block;
+            margin-bottom: 4px;
+        }
+
+        /* Graphics & Progress Bar */
+        .brain-graphic {
+            background: #e3f2fd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px dashed #90caf9;
+        }
+
+        .progress-bar-container {
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background-color: var(--accent-color);
+            width: 85%;
+            color: white;
+            padding: 5px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            font-weight: bold;
+            animation: loadBar 1s ease-out;
+        }
+
+        /* Image Placeholder Style */
+        .app-image {
+            width: 100%;
+            height: auto;
+            max-height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            background-color: #eaeaea;
+        }
+
+        /* Colors for different categories */
+        .school-ready { border-left-color: #ff6f61; }
+        .school-ready .card-header { background-color: #ffeef0; color: #ff6f61;}
+
+        .cognitive { border-left-color: #2196f3; }
+        .cognitive .card-header { background-color: #e3f2fd; color: #2196f3;}
+
+        .social { border-left-color: #4caf50; }
+        .social .card-header { background-color: #e8f5e9; color: #4caf50;}
+
+        .physical { border-left-color: #9c27b0; }
+        .physical .card-header { background-color: #f3e5f5; color: #9c27b0;}
+
+        .nutrition { border-left-color: #ff9800; }
+        .nutrition .card-header { background-color: #fff3e0; color: #ff9800;}
+
+        @keyframes loadBar {
+            from { width: 0; }
+            to { width: 85%; }
+        }
+
+
+        /* बैक बटन की स्टाइलिंग */
+        .btn-back {
+            display: inline-block;
+            background-color: #6c5ce7;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 30px;
+            font-weight: bold;
+        }
+
+        .btn-back:hover {
+            background-color: #5b4bc4;
+        }
+
+
+ .interactive-conclusion {
+            background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e9 100%);
+            border: 2px solid #81c784;
+            border-radius: 16px;
+            padding: 25px 20px 20px 20px;
+            margin-top: 35px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(76, 175, 80, 0.15);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        /* होवर या टच करने पर ऊपर उठने का इफेक्ट */
+        .interactive-conclusion:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(76, 175, 80, 0.25);
+            border-color: #4caf50;
+        }
+
+        .interactive-conclusion h3 {
+            margin-top: 10px;
+            margin-bottom: 12px;
+            color: #1b5e20;
+            font-size: 1.3rem;
+            font-weight: bold;
+        }
+
+        .interactive-conclusion p {
+            margin: 0;
+            font-size: 1rem;
+            color: #2e7d32;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        .interactive-conclusion p strong {
+            color: #d32f2f;
+            background: #fff9c4;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        /* ध्यान खींचने वाला टॉप बैज */
+        .conclusion-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #4caf50;
+            color: white;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* स्टार आइकॉन के घूमने और चमकने का एनिमेशन */
+        .pulse-icon {
+            animation: spinAndPulse 3s infinite linear;
+        }
+
+        @keyframes spinAndPulse {
+            0% { transform: rotate(0deg) scale(1); }
+            50% { transform: rotate(180deg) scale(1.2); }
+            100% { transform: rotate(360deg) scale(1); }
+        }
+    </style>
 </head>
 <body>
-    <div class="mobile-container">
-        <header><a href="index.html" class="back-btn">&larr; बैक</a><h1>पूर्व-स्कूली शिक्षा</h1></header>
-<main>
-    <div class="card">
-        <h2>🧸 अनौपचारिक शिक्षा की पूरी जानकारी</h2>
-        <p><strong>लक्ष्य:</strong> 3 से 6 वर्ष के बच्चों को स्कूल जाने के लिए मानसिक रूप से तैयार करना।</p>
-        <p><strong>पद्धति:</strong> यहाँ बच्चों को बिना किसी मानसिक दबाव के खेल-कूद, कविताओं, चार्ट पेपर और खिलौनों के माध्यम से प्रारंभिक शिक्षा (ECCE) दी जाती है।</p>
+
+<div class="container">
+
+    <!-- NEP 2020 Banner -->
+    <div class="nep-banner">
+        <h2><i class="fa-solid fa-graduation-cap"></i> राष्ट्रीय शिक्षा नीति (NEP 2020)</h2>
+        <p>शुरुआती बाल्यावस्था देखभाल और शिक्षा (ECCE) को मजबूत करने के लिए आँगनबाड़ी केन्द्रों की भूमिका को सबसे महत्वपूर्ण माना गया है।</p>
     </div>
-    <a href="index.html" style="display:block;text-align:center;background:#666;color:#fff;padding:15px;text-decoration:none;border-radius:8px;font-weight:bold;">होम पेज पर जाएं</a>
-</main>
+
+    <!-- Main Title -->
+    <h1 class="section-title">स्कूल पूर्व शिक्षा की आवश्यकता क्यों है?</h1>
+
+    <!-- 1. School Readiness Card -->
+    <div class="card school-ready">
+        <div class="card-header">
+            <i class="fa-solid fa-school"></i> 1. औपचारिक स्कूल के लिए तैयारी (School Readiness)
+        </div>
+        <div class="card-body">
+            <!-- यहाँ आप अपनी पसंद की फोटो का लिंक src में डाल सकते हैं -->
+            <img class="app-image" src="https://unsplash.com" alt="School Readiness">
+            
+            <div class="point">
+                <span class="point-title"><i class="fa-solid fa-face-smile"></i> डर और झिझक को दूर करना:</span>
+                <p style="margin:0;">घर के सुरक्षित माहौल से सीधे बड़े स्कूल में जाने पर बच्चे अक्सर डर जाते हैं। आँगनबाड़ी का अनौपचारिक माहौल उनके इस डर को दूर करता है।</p>
+            </div>
+            <div class="point">
+                <span class="point-title"><i class="fa-solid fa-clock"></i> अनुशासन की समझ:</span>
+                <p style="margin:0;">बच्चे हर दिन कुछ घंटे एक जगह बैठने, अपनी बारी का इंतज़ार करने और निर्देशों को मानने की बुनियादी आदतें सीखते हैं।</p>
+            </div>
+        </div>
     </div>
-</body>
-</html>
+
+    <!-- 2. Cognitive Development Card -->
+    <div class="card cognitive">
+        <div class="card-header">
+            <i class="fa-solid fa-brain"></i> 2. मानसिक और संज्ञानात्मक विकास (Cognitive Development)
+        </div>
+        <div class="card-body">
+            <div class="point">
+                <span class="point-title"><i class="fa-solid fa-bolt"></i> तेज़ी से सीखना:</span>
+                <p style="margin:0;">वैज्ञानिक शोध बताते हैं कि मानव मस्तिष्क का अधिकांश विकास शुरुआती 6 वर्ष की आयु से पहले ही हो जाता है। ऐसे में शुरुआती सही मार्गदर्शन बहुत प्रभावी होता.</p>
+                
+                <!-- Graphic Representing 85% Brain Development -->
+                <div class="brain-graphic">
+                    <strong><i class="fa-solid fa-chart-pie"></i> मानव मस्तिष्क का 85% विकास 6 वर्ष से पहले:</strong>
+                    <div class="progress-bar-container">
+                        <div class="progress-bar">85% विकास</div>
+                    </div>
+                </div>
+            </div>
+            <div class="point" style="margin-top: 15px;">
+                <span class="point-title"><i class="fa-solid fa-book-open"></i> बुनियादी ज्ञान:</span>
+                <p style="margin:0;">बच्चे यहाँ खेल-खेल में अक्षरों की पहचान, गिनती, रंगों के नाम और आकृतियों को समझना शुरू कर देते हैं।</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 3. Socio-Emotional Development Card -->
+    <div class="card social">
+        <div class="card-header">
+            <i class="fa-solid fa-users"></i> 3. सामाजिक और भावनात्मक विकास
+        </div>
+        <div class="card-body">
+            <img class="app-image" src="https://unsplash.com" alt="Social Development">
+            <div class="point">
+                <span class="point-title"><i class="fa-solid fa-handshake"></i> मेलजोल बढ़ाना:</span>
+                <p style="margin:0;">अपने हमउम्र बच्चों के साथ उठने-बैठने और खेलने से बच्चों में साझा करने (Sharing) और मिलजुलकर रहने की भावना का विकास होता है।</p>
+            </div>
+            <div class="point">
+                <span class="point-title"><i class="fa-solid fa-child"></i> आत्मनिर्भरता:</span>
+                <p style="margin:0;">बच्चे खुद से खाना खाना, खिलौने समेटना और अपनी बात को व्यक्त करना सीखते हैं जिससे उनका आत्मविश्वास बढ़ता है।</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 4. Physical & Motor Skills Card -->
+    <div class="card physical">
+        <div class="card-header">
+            <i class="fa-solid fa-child-reaching"></i> 4. शारीरिक और गत्यात्मक विकास (Physical & Motor Skills)
+        </div>
+        <div class="card-body">
+            <div class="point">
+                <span class="point-title"><i class="fa-solid fa-scissors"></i> सूक्ष्म कौशल (Fine Motor Skills):</span>
+                <p style="margin:0;">कागज़ फाड़ना-चिपकाना, मिट्टी के खिलौने बनाना और चित्रकारी करने से उंगलियों और हाथों की मांसपेशियां मजबूत होती हैं, जो आगे चलकर लिखने में मदद करती हैं।</p>
+            </div>
+            <div class="point">
+                <span class="point-title"><i class="fa-solid fa-baseball"></i> स्थूल कौशल (Gross Motor Skills):</span>
+                <p style="margin:0;">दौड़ना, कूदना और सामूहिक खेल खेलना उनके शारीरिक विकास को बढ़ावा देता है।</p>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- 5. पोषण और स्वास्थ्य का सीधा जुड़ाव (Nutrition & Health) - चित्र के साथ अपडेटेड -->
+    <div class="card nutrition">
+        <div class="card-header">
+            <i class="fa-solid fa-apple-whole"></i> 5. पोषण और स्वास्थ्य का सीधा जुड़ाव (Nutrition & Health)
+        </div>
+        <div class="card-body">
+            <!-- पोषण और स्वास्थ्य के लिए चित्र प्लेसहोल्डर -->
+            <img class="app-image" src="https://unsplash.com" alt="Nutrition & Health">
+            
+            <div class="point">
+                <span class="point-title"><i class="fa-solid fa-heart-pulse"></i> स्वस्थ शरीर, स्वस्थ दिमाग:</span>
+                <p style="margin:0;">आँगनबाड़ी में शिक्षा के साथ-साथ पूरक पोषण (जैसे गर्म पका भोजन और राशन) भी मिलता है। कुपोषण मुक्त होने पर बच्चे का मन पढ़ाई और रचनात्मक गतिविधियों में बेहतर ढंग से लगता है।</p>
+            </div>
+        </div>
+    </div>
+    <!-- 6. खेल-खेल में शिक्षा (Play-way Method) -->
+    <div class="accordion-item">
+        <div class="accordion-header c2" onclick="toggleAccordion(this)">
+            <span><i class="fa-solid fa-puzzle-piece main-icon"></i> 6. खेल-खेल में शिक्षा (Play-way)</span>
+            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="accordion-body">
+                <div class="point">
+                    <span class="point-title">खोजबीन आधारित सीखना:</span> बच्चों को प्रकृति (सूखी पत्तियाँ, रंग-बिरंगे पत्थर) से जोड़ें। इन्हें गिनने और छांटने से उनका वर्गीकरण कौशल बढ़ता है।
+                </div>
+                <div class="point" style="margin-top: 10px;">
+                    <span class="point-title">पहेलियाँ (Puzzles):</span> ब्लॉक्स या चित्रों को जोड़ने वाले खेल खेलने दें। यह बच्चों में समस्या समाधान (Problem Solving) की क्षमता को जगाता है।
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 7. भाषा और बातचीत का विकास (Language Development) -->
+    <div class="accordion-item">
+        <div class="accordion-header c3" onclick="toggleAccordion(this)">
+            <span><i class="fa-solid fa-comments main-icon"></i> 7. भाषा और बातचीत का विकास</span>
+            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="accordion-body">
+                <div class="point">
+                    <span class="point-title">कहानी सुनाना (Storytelling):</span> हाव-भाव और आवाज़ बदलकर कहानियाँ सुनाएँ। बीच में उनसे पूछें, "इसके बाद क्या हुआ होगा?" इससे बच्चों की कल्पना शक्ति बढ़ती है।
+                </div>
+                <div class="point" style="margin-top: 10px;">
+                    <span class="point-title">बालगीत और कविताएँ:</span> तुकबंदी वाले गानों और एक्शन कविताओं से बच्चे नए शब्द बहुत जल्दी और मज़ेदार तरीके से सीखते हैं।
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 8. सामाजिक शिष्टाचार और आदतें (Social Habits) -->
+    <div class="accordion-item">
+        <div class="accordion-header c4" onclick="toggleAccordion(this)">
+            <span><i class="fa-solid fa-handshake-angle main-icon"></i> 8. सामाजिक शिष्टाचार और आदतें</span>
+            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="accordion-body">
+                <div class="point">
+                    <span class="point-title">साझा करना (Sharing):</span> सामूहिक खेलों के माध्यम से बच्चों को अपनी बारी (Turn) का इंतज़ार करना और खिलौने शेयर करना सिखाया जाता है।
+                </div>
+                <div class="point" style="margin-top: 10px;">
+                    <span class="point-title">आत्मनिर्भरता (Self-help Skills):</span> हाथ धोना, अपना टिफिन खोलना और खिलौनों को सही जगह वापस रखना जैसी आदतें बच्चों को इंडिपेंडेंट बनाती हैं।
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 9. इंद्रियों द्वारा सीखना (Sensory Learning) -->
+    <div class="accordion-item">
+        <div class="accordion-header c1" onclick="toggleAccordion(this)">
+            <span><i class="fa-solid fa-eye main-icon"></i> 9. इंद्रियों द्वारा सीखना (Sensory)</span>
+            <i class="fa-solid fa-chevron-down arrow-icon"></i>
+        </div>
+        <div class="accordion-content">
+            <div class="accordion-body">
+                <div class="point">
+                    <span class="point-title">छूकर पहचानना:</span> बच्चों की आँखों पर पट्टी बांधकर अलग-अलग सतहों (चिकनी, खुरदरी, मुलायम) को छूकर पहचानने के लिए कहें।
+                </div>
+                <div class="point" style="margin-top: 10px;">
+                    <span class="point-title">रंग और आकार:</span> आसपास की व्यावहारिक वस्तुओं (जैसे- गोल प्लेट, चौकोर डिब्बा) का उदाहरण देकर आकृतियों का ज्ञान दें।
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- शिक्षकों और अभिभावकों के लिए 3 स्वर्ण नियम (Golden Rules) -->
+    <div style="background-color: #fff9c4; border: 1px solid #fff59d; border-radius: 12px; padding: 15px; margin-top: 25px;">
+        <h3 style="margin-top: 0; color: #f57f17; font-size: 1.15rem; text-align: center;">
+            <i class="fa-solid fa-star"></i> सिखाने के 3 स्वर्ण नियम (Golden Rules)
+        </h3>
+        <ul style="padding-left: 20px; margin: 0; font-size: 0.95rem; color: #424242;">
+            <li style="margin-bottom: 8px;"><strong>सकारात्मक प्रोत्साहन:</strong> बच्चों की छोटी सफलता पर भी तारीफ करें (जैसे- "शाबाश! बहुत सुंदर चित्र बनाया")। इससे आत्मविश्वास बढ़ता है।</li>
+            <li style="margin-bottom: 8px;"><strong>गलतियों को स्वीकारना:</strong> बच्चों को गलतियाँ करने दें। टोकने के बजाय खेल-खेल में सही तरीका सिखाएं।</li>
+            <li><strong>धैर्य रखें:</strong> हर बच्चे के सीखने की गति अलग होती है। किसी भी बच्चे की तुलना दूसरे से कभी न करें।</li>
+        </ul>
+    </div>
+
+  <!-- पूरी तरह से आकर्षक और इंटरैक्टिव निष्कर्ष सेक्शन -->
+    <div class="interactive-conclusion">
+        <div class="conclusion-badge">
+            <i class="fa-solid fa-star-of-life pulse-icon"></i> आवश्यक संदेश
+        </div>
+        <h3><i class="fa-solid fa-award"></i> मुख्य निष्कर्ष</h3>
+        <p>
+            संक्षेप में, आँगनबाड़ी केवल एक डे-केयर सेंटर नहीं है, बल्कि यह बच्चों के सुनहरे भविष्य की <strong>पहली सीढ़ी</strong> है। सही समय पर मिली सही शिक्षा बच्चों को जीवनभर आगे रखती है।
+        </p>
+    </div>
+
+
+    <!-- इंटरैक्टिव ऐप विजेट: क्या आपको यह जानकारी उपयोगी लगी? -->
+    <div style="margin-top: 25px; text-align: center; padding: 10px; border-top: 1px dashed #ccc;">
+        <p style="margin-bottom: 8px; font-weight: bold; font-size: 0.9rem; color: #616161;">क्या यह जानकारी आपके लिए मददगार थी?</p>
+        <button onclick="alert('फीडबैक के लिए धन्यवाद!')" style="background-color: #4caf50; color: white; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; margin-right: 5px;">
+            <i class="fa-solid fa-thumbs-up"></i> हाँ
+        </button>
+        <button onclick="alert('हम इसे और बेहतर बनाने का प्रयास करेंगे!')" style="background-color: #e0e0e0; color: #333; border: none; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer;">
+            <i class="fa-solid fa-thumbs-down"></i> नहीं
+        </button>
+ <!-- होम या डैशबोर्ड पर वापस जाने के लिए लिंक -->
+    <a href="index.html" class="btn-back"><i class="fa-solid fa-arrow-left"></i> मुख्य पेज पर जाएं</a>
+    </div>
